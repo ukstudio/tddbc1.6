@@ -9,6 +9,7 @@ class Kvs
   end
 
   def [](key)
+    raise KeyError if key.nil?
     @records[key]
   end
 end

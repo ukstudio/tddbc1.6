@@ -32,5 +32,11 @@ describe Kvs do
       subject { kvs }
       its([:key]) { should eq 'value' }
     end
+
+    context 'キーにnilを指定した場合' do
+      specify do
+        expect { kvs[nil] }.to raise_error(KeyError)
+      end
+    end
   end
 end

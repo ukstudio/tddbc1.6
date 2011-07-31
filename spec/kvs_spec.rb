@@ -13,6 +13,12 @@ describe Kvs do
         expect { kvs[nil] = 'value' }.to raise_error(ArgumentError)
       end
     end
+
+    context 'バリューにnilを指定した場合' do
+      before { kvs[:key] = nil }
+      subject { kvs }
+      its([:key]) { should be_nil }
+    end
   end
 
   describe '[]' do

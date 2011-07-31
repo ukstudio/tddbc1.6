@@ -4,6 +4,7 @@ class Kvs
   end
 
   def []=(key,value)
+    raise ArgumentError if key.nil?
     @records[key] = value
   end
 

@@ -7,6 +7,12 @@ describe Kvs do
   describe '[]=' do
     subject { kvs[:key] = 'value' }
     it { should eq 'value' }
+
+    context 'キーにnilを指定した場合' do
+      specify do
+        expect { kvs[nil] = 'value' }.to raise_error(ArgumentError)
+      end
+    end
   end
 
   describe '[]' do

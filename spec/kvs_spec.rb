@@ -19,6 +19,15 @@ describe Kvs do
       subject { kvs }
       its([:key]) { should be_nil }
     end
+
+    context '既存の値を上書き' do
+      before do
+        kvs[:key] = 'value'
+        kvs[:key] = 'updated_value'
+      end
+      subject { kvs }
+      its([:key]) { should eq 'updated_value' }
+    end
   end
 
   describe '[]' do

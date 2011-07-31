@@ -4,12 +4,12 @@ class Kvs
   end
 
   def []=(key,value)
-    raise ArgumentError if key.nil?
+    check_key!(key)
     @records[key] = value
   end
 
   def [](key)
-    raise KeyError if key.nil?
+    check_key!(key)
     @records[key]
   end
 
@@ -18,6 +18,12 @@ class Kvs
   end
 
   def delete(key)
+    check_key!(key)
     @records.delete(key)
+  end
+
+  private
+  def check_key!(key)
+    raise KeyError if key.nil?
   end
 end

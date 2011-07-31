@@ -10,7 +10,7 @@ describe Kvs do
 
     context 'キーにnilを指定した場合' do
       specify do
-        expect { kvs[nil] = 'value' }.to raise_error(ArgumentError)
+        expect { kvs[nil] = 'value' }.to raise_error(KeyError)
       end
     end
 
@@ -70,6 +70,12 @@ describe Kvs do
       subject { kvs }
       its([:key]) { should be_nil }
       specify { @deleted_value.should eq 'value' }
+    end
+
+    context 'キーにnilを指定した場合' do
+      specify do
+        expect { kvs.delete(nil) }.to raise_error(KeyError)
+      end
     end
   end
 end

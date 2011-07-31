@@ -95,5 +95,12 @@ describe Kvs do
     subject { kvs }
     its([:key1]) { should eq 'value1' }
     its([:key2]) { should eq 'value2' }
+
+    context '登録されているキーが指定された場合' do
+      before do
+        kvs.merge(key1: 'updated_value1')
+      end
+      its([:key1]) { should eq 'updated_value1' }
+    end
   end
 end

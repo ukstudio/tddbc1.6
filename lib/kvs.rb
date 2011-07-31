@@ -12,4 +12,8 @@ class Kvs
     raise KeyError if key.nil?
     @records[key]
   end
+
+  def dump
+    ''
+  end
 end

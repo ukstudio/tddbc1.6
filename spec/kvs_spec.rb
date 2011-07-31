@@ -39,4 +39,9 @@ describe Kvs do
       end
     end
   end
+
+  describe '#dump' do
+    subject { kvs.dump }
+    it { should eq '' }
+  end
 end

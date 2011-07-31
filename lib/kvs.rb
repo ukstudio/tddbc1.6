@@ -22,6 +22,10 @@ class Kvs
     @records.delete(key)
   end
 
+  def merge(hash)
+    @records.merge!(hash)
+  end
+
   private
   def check_key!(key)
     raise KeyError if key.nil?

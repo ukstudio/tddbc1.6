@@ -87,4 +87,13 @@ describe Kvs do
       end
     end
   end
+
+  describe '#merge' do
+    before do
+      kvs.merge(key1: 'value1', key2: 'value2')
+    end
+    subject { kvs }
+    its([:key1]) { should eq 'value1' }
+    its([:key2]) { should eq 'value2' }
+  end
 end

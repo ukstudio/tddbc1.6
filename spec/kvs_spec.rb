@@ -42,6 +42,17 @@ describe Kvs do
 
   describe '#dump' do
     subject { kvs.dump }
-    it { should eq '' }
+
+    context '空の場合' do
+      it { should eq '' }
+    end
+
+    context 'キーとバリューが2セット登録されている場合' do
+      before do
+        kvs[:key] = 'value'
+        kvs[:key2] = 'value2'
+      end
+      it { should eq %Q!:key,"value"\n:key2,"value2"! }
+    end
   end
 end

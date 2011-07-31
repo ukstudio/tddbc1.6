@@ -109,5 +109,11 @@ describe Kvs do
       end
       its([:key1]) { should eq 'after' }
     end
+
+    context '引数のキーにnilが含まれていた場合' do
+      specify do
+        expect { kvs.merge(nil => 'nil') }.to raise_error(KeyError)
+      end
+    end
   end
 end

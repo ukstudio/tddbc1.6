@@ -18,5 +18,6 @@ class Kvs
   end
 
   def delete(key)
+    @records.delete(key)
   end
 end

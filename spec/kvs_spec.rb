@@ -57,7 +57,19 @@ describe Kvs do
   end
 
   describe '#delete' do
-    subject { kvs.delete(:nonexists) }
-    it { should be_nil }
+    context '存在しないキーを指定した場合' do
+      subject { kvs.delete(:nonexists) }
+      it { should be_nil }
+    end
+
+    context '存在するキーを指定した場合' do
+      before do
+        kvs[:key] = 'value'
+        @deleted_value = kvs.delete(:key)
+      end
+      subject { kvs }
+      its([:key]) { should be_nil }
+      specify { @deleted_value.should eq 'value' }
+    end
   end
 end

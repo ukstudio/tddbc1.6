@@ -55,4 +55,9 @@ describe Kvs do
       it { should eq %Q!:key,"value"\n:key2,"value2"! }
     end
   end
+
+  describe '#delete' do
+    subject { kvs.delete(:nonexists) }
+    it { should be_nil }
+  end
 end

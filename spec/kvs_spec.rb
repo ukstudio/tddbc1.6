@@ -102,5 +102,12 @@ describe Kvs do
       end
       its([:key1]) { should eq 'updated_value1' }
     end
+
+    context '引数のキーが重複していた場合' do
+      before do
+        kvs.merge(key1: 'before', key1: 'after')
+      end
+      its([:key1]) { should eq 'after' }
+    end
   end
 end

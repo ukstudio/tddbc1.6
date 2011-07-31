@@ -23,12 +23,14 @@ class Kvs
   end
 
   def merge(hash)
-    raise KeyError if hash.has_key? nil
+    check_key!(hash)
     @records.merge!(hash)
   end
 
   private
   def check_key!(key)
-    raise KeyError if key.nil?
+    if key.is_a?(Hash) ? key.has_key?(nil) : key.nil?
+      raise KeyError
+    end
   end
 end

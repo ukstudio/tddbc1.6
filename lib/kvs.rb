@@ -5,26 +5,30 @@ class Kvs
 
   def []=(key,value)
     check_key!(key)
-    @records[key] = value
+    @records[key] = {value: value, date: Time.now}
+    @records[key][:value]
   end
 
   def [](key)
     check_key!(key)
-    @records[key]
+    @records[key].nil? ? nil : @records[key][:value]
   end
 
-  def dump
-    @records.map{|k,v| "#{k.inspect},#{v.inspect}" }.reverse.join("\n")
+  def dump(sec=nil)
+    records = @records
+    records = @records.select{|k,hash| hash[:date] > Time.now - sec} if sec
+    records.map{|k,hash| "#{k.inspect},#{hash[:value].inspect}" }.reverse.join("\n")
   end
 
   def delete(key)
     check_key!(key)
-    @records.delete(key)
+    deleted = @records.delete(key)
+    deleted.nil? ? nil : deleted[:value]
   end
 
   def merge(hash)
     check_key!(hash)
-    @records.merge!(hash)
+    hash.each {|k,v| self[k] = v}
   end
 
   private

@@ -1,6 +1,16 @@
 # coding: utf-8
 require_relative File.join('..','lib','kvs')
 
+class Fixnum
+  def seconds_ago(&block)
+    @@now ||= Time.now
+    @@now -= self
+    Time.stub(:now) { @@now }
+    yield
+    Time.rspec_reset
+  end
+end
+
 describe Kvs do
   let(:kvs) { Kvs.new }
 
@@ -62,6 +72,17 @@ describe Kvs do
         kvs[:key2] = 'value2'
       end
       it { should eq %Q!:key2,"value2"\n:key,"value"! }
+    end
+
+    context '秒指定がある場合' do
+      before do
+        31.seconds_ago do
+          kvs[:key] = 'value'
+        end
+        kvs[:key2] = 'value2'
+      end
+      subject { kvs.dump(30) }
+      it { should eq %Q!:key2,"value2"! }
     end
   end
 

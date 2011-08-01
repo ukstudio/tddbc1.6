@@ -5,7 +5,7 @@ class Kvs
 
   def []=(key,value)
     check_key!(key)
-    @records[key] = {value: value, date: Time.now}
+    @records[key] = {value: value, timestamp: Time.now.to_i}
     @records[key][:value]
   end
 
@@ -15,8 +15,9 @@ class Kvs
   end
 
   def dump(sec=nil)
-    @records.select{|k,hash| sec.nil? ? true : hash[:date].to_i >= (Time.now - sec).to_i}.
-             map{|k,hash| "#{k.inspect},#{hash[:value].inspect}" }.reverse.join("\n")
+    @records.select{|k,record| sec.nil? ? true : recent?(sec,record) }.
+             map{|k,record| record_inspect(k,record) }.
+             reverse.join("\n")
   end
 
   def delete(key)
@@ -35,5 +36,13 @@ class Kvs
     if key.is_a?(Hash) ? key.has_key?(nil) : key.nil?
       raise KeyError
     end
+  end
+
+  def record_inspect(key,record)
+    "#{key.inspect},#{record[:value].inspect}"
+  end
+
+  def recent?(sec,record)
+    record[:timestamp] >= (Time.now - sec).to_i
   end
 end

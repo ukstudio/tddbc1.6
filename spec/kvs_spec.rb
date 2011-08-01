@@ -61,7 +61,7 @@ describe Kvs do
         kvs[:key] = 'value'
         kvs[:key2] = 'value2'
       end
-      it { should eq %Q!:key,"value"\n:key2,"value2"! }
+      it { should eq %Q!:key2,"value2"\n:key,"value"! }
     end
   end
 

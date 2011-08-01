@@ -14,7 +14,7 @@ class Kvs
   end
 
   def dump
-    @records.map{|k,v| "#{k.inspect},#{v.inspect}" }.join("\n")
+    @records.map{|k,v| "#{k.inspect},#{v.inspect}" }.reverse.join("\n")
   end
 
   def delete(key)

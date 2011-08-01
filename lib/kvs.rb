@@ -15,9 +15,8 @@ class Kvs
   end
 
   def dump(sec=nil)
-    records = @records
-    records = @records.select{|k,hash| hash[:date] > Time.now - sec} if sec
-    records.map{|k,hash| "#{k.inspect},#{hash[:value].inspect}" }.reverse.join("\n")
+    @records.select{|k,hash| sec.nil? ? true : hash[:date].to_i >= (Time.now - sec).to_i}.
+             map{|k,hash| "#{k.inspect},#{hash[:value].inspect}" }.reverse.join("\n")
   end
 
   def delete(key)

@@ -3,7 +3,7 @@ require_relative File.join('..','lib','kvs')
 
 class Fixnum
   def seconds_ago(&block)
-    @@now ||= Time.now
+    @@now = Time.now
     @@now -= self
     Time.stub(:now) { @@now }
     yield
@@ -77,12 +77,15 @@ describe Kvs do
     context '秒指定がある場合' do
       before do
         31.seconds_ago do
-          kvs[:key] = 'value'
+          kvs[:ago31] = 'value'
         end
-        kvs[:key2] = 'value2'
+        30.seconds_ago do
+          kvs[:ago30] = 'value2'
+        end
+        kvs[:now] = 'value3'
       end
       subject { kvs.dump(30) }
-      it { should eq %Q!:key2,"value2"! }
+      it { should eq %Q!:now,"value3"\n:ago30,"value2"! }
     end
   end
 

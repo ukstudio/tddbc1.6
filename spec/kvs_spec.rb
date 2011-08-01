@@ -140,4 +140,21 @@ describe Kvs do
       end
     end
   end
+
+  describe '#delete_older' do
+    before do
+      31.seconds_ago do
+        kvs[:ago31] = 'value'
+      end
+      30.seconds_ago do
+        kvs[:ago30] = 'value2'
+      end
+      kvs[:now] = 'value3'
+      kvs.delete_older(30)
+    end
+    subject { kvs }
+    its([:ago31]) { should be_nil }
+    its([:ago30]) { should eq 'value2' }
+    its([:now])   { should eq 'value3' }
+  end
 end

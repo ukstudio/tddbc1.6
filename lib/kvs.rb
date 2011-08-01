@@ -26,6 +26,11 @@ class Kvs
     deleted.nil? ? nil : deleted[:value]
   end
 
+  def delete_older(sec)
+    @records.select{|k,record| !recent?(sec,record) }.
+             each{|k,record| delete(k) }
+  end
+
   def merge(hash)
     check_key!(hash)
     hash.each {|k,v| self[k] = v}
